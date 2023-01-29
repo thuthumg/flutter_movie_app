@@ -41,7 +41,7 @@ class ActorImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      "https://cdn1-production-images-kly.akamaized.net/4UKeLIvdFlL6tDI0I01sWbD9LuU=/1200x900/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/1712534/original/092141800_1505624991-Song_Seung_Hun.jpg",
+      "https://www.thefamouspeople.com/profiles/images/og-eddie-redmayne-14144.jpg",
       fit: BoxFit.cover,
     );
   }
@@ -74,7 +74,7 @@ class ActorNameAndLikeView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            "Song Seung-heon",
+            "Eddie Redmayne",
             style: TextStyle(
                 fontSize: TEXT_REGULAR,
                 color: Colors.white,
@@ -88,7 +88,7 @@ class ActorNameAndLikeView extends StatelessWidget {
               Icon(
                 Icons.thumb_up,
                 color: Colors.amber,
-                size: MARGIN_CARD_MEDIUM,
+                size: MARGIN_CARD_MEDIUM_2,
               ),
               SizedBox(width: MARGIN_MEDIUM),
               Text(

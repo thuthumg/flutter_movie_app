@@ -6,8 +6,12 @@ class TitleTextWithSeeMoreWidgetView extends StatelessWidget {
 
   final String titleText;
   final String seeMoreText;
+  final bool seeMoreButtonVisibility;
 
-  TitleTextWithSeeMoreWidgetView(this.titleText, this.seeMoreText);
+  TitleTextWithSeeMoreWidgetView(
+      this.titleText,
+      this.seeMoreText,
+      {this.seeMoreButtonVisibility = true});
 
 
   @override
@@ -16,7 +20,9 @@ class TitleTextWithSeeMoreWidgetView extends StatelessWidget {
       children: [
         TitleText(titleText),
         Spacer(),
-        SeeMoreText(seeMoreText)
+        
+        Visibility(visible: seeMoreButtonVisibility,
+        child: SeeMoreText(seeMoreText))
       ],
     );
   }

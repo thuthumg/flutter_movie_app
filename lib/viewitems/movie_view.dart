@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_app/resources/dimens.dart';
+import 'package:movie_app/widgets/rating_view.dart';
 
 class MovieView extends StatelessWidget {
-  const MovieView({Key? key}) : super(key: key);
+  final Function onTapMovie;
+
+  MovieView(this.onTapMovie);
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +16,15 @@ class MovieView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            "https://www.pixelstalk.net/wp-content/uploads/images6/Wolverine-Wallpaper-Desktop.jpg",
-            height: 200,
-            fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              onTapMovie();
+            },
+            child: Image.network(
+              "https://www.pixelstalk.net/wp-content/uploads/images6/Wolverine-Wallpaper-Desktop.jpg",
+              height: 200,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(
             height: MARGIN_MEDIUM,
@@ -43,14 +51,7 @@ class MovieView extends StatelessWidget {
               const SizedBox(
                 width: MARGIN_MEDIUM,
               ),
-               RatingBar.builder(
-                 initialRating: 5.0,
-                  itemBuilder: (BuildContext context, int index) => const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                  itemSize: MARGIN_MEDIUM_2,
-                  onRatingUpdate: (rating) {print(rating);})
+              RatingView()
             ],
           )
         ],
