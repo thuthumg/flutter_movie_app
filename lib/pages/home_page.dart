@@ -4,7 +4,6 @@ import 'package:movie_app/pages/movie_details_page.dart';
 import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/resources/strings.dart';
-import 'package:movie_app/viewitems/actor_view.dart';
 import 'package:movie_app/viewitems/banner_view.dart';
 import 'package:movie_app/viewitems/movie_view.dart';
 import 'package:movie_app/viewitems/showcase_view.dart';
@@ -36,7 +35,7 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
         leading: const Icon(Icons.menu),
-        actions: [
+        actions: const [
           Padding(
             padding: EdgeInsets.only(
               left: 0,
@@ -124,7 +123,7 @@ class GenreSectionView extends StatelessWidget {
         Container(
             color: PRIMARY_COLOR,
             padding:
-                EdgeInsets.only(top: MARGIN_MEDIUM_2, bottom: MARGIN_LARGE),
+                const EdgeInsets.only(top: MARGIN_MEDIUM_2, bottom: MARGIN_LARGE),
             child: HorizontalMovieListView(() {
               onTapMovie();
             })),

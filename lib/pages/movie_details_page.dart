@@ -23,10 +23,10 @@ class MovieDetailsPage extends StatelessWidget {
             SliverList(
                 delegate: SliverChildListDelegate([
               Container(
-                margin: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
+                margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                 child: TrailerSection(genreList),
               ),
-              SizedBox(
+              const SizedBox(
                 height: MARGIN_LARGE,
               ),
               ActorsAndCreatorsSectionView(
@@ -34,14 +34,14 @@ class MovieDetailsPage extends StatelessWidget {
                 "",
                 seeMoreButtonVisibility: false,
               ),
-              SizedBox(
+              const SizedBox(
                 height: MARGIN_LARGE,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                 child: AboutFilmSectionView(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: MARGIN_LARGE,
               ),
               ActorsAndCreatorsSectionView(MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
@@ -65,23 +65,23 @@ class AboutFilmSectionView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleText("ABOUT FILM"),
-        SizedBox(
+        const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Original Title", "Fantastic Beasts and Where to Find Them"),
-        SizedBox(
+        const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Type:", "Family, Fantasy, Adventure"),
-        SizedBox(
+        const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Production:", "United Kingdom, USA"),
-        SizedBox(
+        const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Premiere:", "8 November 2016(World)"),
-        SizedBox(
+        const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Description:",
@@ -302,9 +302,9 @@ class GenreChipView extends StatelessWidget {
             label: Text(
               genreText,
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             )),
-        SizedBox(
+        const SizedBox(
           width: MARGIN_SMALL,
         )
       ],
@@ -325,6 +325,9 @@ class MovieDetailsSliverAppBarView extends StatelessWidget {
       automaticallyImplyLeading: false,
       backgroundColor: PRIMARY_COLOR,
       expandedHeight: MOVIE_DETAILS_SCREEN_SLIVER_APP_BAR_HEIGHT,
+     // floating: true,
+      pinned: true,
+    //  snap: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           children: [
