@@ -38,8 +38,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_rating_bar: ^4.0.1
   dots_indicator: ^2.1.0
+  json_serializable: ^3.5.1
+  json_annotation: ^3.1.1
+  http: ^0.12.2
+
 
 dev_dependencies:
+  build_runner:
   flutter_test:
     sdk: flutter
 
