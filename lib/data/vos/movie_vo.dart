@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 part 'movie_vo.g.dart';
 
@@ -6,46 +5,46 @@ part 'movie_vo.g.dart';
 class MovieVO{
 
   @JsonKey(name: "adult")
-  bool adult;
+  bool? adult;
 
   @JsonKey(name: "backdrop_path")
-  String backDropPath;
+  String? backDropPath;
 
   @JsonKey(name: "genre_ids")
-  List<int> genreIds;
+  List<int>? genreIds;
 
   @JsonKey(name: "id")
-  int id;
+  int? id;
 
   @JsonKey(name: "original_language")
-  String originalLanguage;
+  String? originalLanguage;
 
   @JsonKey(name: "original_title")
-  String originalTitle;
+  String? originalTitle;
 
   @JsonKey(name: "overview")
-  String overview;
+  String? overview;
 
   @JsonKey(name: "popularity")
-  double popularity;
+  double? popularity;
 
   @JsonKey(name: "poster_path")
-  String posterPath;
+  String? posterPath;
 
   @JsonKey(name: "release_date")
-  String reelaseDate;
+  String? releaseDate;
 
   @JsonKey(name: "title")
-  String title;
+  String? title;
 
   @JsonKey(name: "video")
-  bool video;
+  bool? video;
 
   @JsonKey(name: "vote_average")
-  double voteAverage;
+  double? voteAverage;
 
   @JsonKey(name: "vote_count")
-  int voteCount;
+  int? voteCount;
 
   MovieVO(
       this.adult,
@@ -57,13 +56,18 @@ class MovieVO{
       this.overview,
       this.popularity,
       this.posterPath,
-      this.reelaseDate,
+      this.releaseDate,
       this.title,
       this.video,
       this.voteAverage,
       this.voteCount);
 
 
-  factory MovieVO.fromJson(Map<String,dynamic>json) =>_$MovieVOFromJson(json);
+  factory MovieVO.fromJson(Map<String,dynamic> json) =>_$MovieVOFromJson(json);
   Map<String,dynamic> toJson()=> _$MovieVOToJson(this);
+
+  @override
+  String toString() {
+    return 'MovieVO{adult: $adult, backDropPath: $backDropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, reelaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount}';
+  }
 }

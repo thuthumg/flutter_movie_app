@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movie_app/data/vos/movie_vo.dart';
+import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/rating_view.dart';
 
 class MovieView extends StatelessWidget {
   final Function onTapMovie;
+  final MovieVO mMovie;
 
-  MovieView(this.onTapMovie);
+  MovieView(this.onTapMovie,this.mMovie);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class MovieView extends StatelessWidget {
               onTapMovie();
             },
             child: Image.network(
-              "https://www.pixelstalk.net/wp-content/uploads/images6/Wolverine-Wallpaper-Desktop.jpg",
+              "$IMAGE_BASE_URL${mMovie.posterPath}",
               height: 200,
               fit: BoxFit.cover,
             ),
@@ -29,9 +32,9 @@ class MovieView extends StatelessWidget {
           const SizedBox(
             height: MARGIN_MEDIUM,
           ),
-          const Text(
-            "West World",
-            style: TextStyle(
+          Text(
+            mMovie?.title?? "",
+            style: const TextStyle(
                 color: Colors.white,
                 fontSize: TEXT_REGULAR,
                 fontWeight: FontWeight.w600),
