@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/data/vos/movie_vo.dart';
+import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/gradient_view.dart';
 import 'package:movie_app/widgets/play_button_view.dart';
 
 class BannerView extends StatelessWidget {
-  const BannerView({Key? key}) : super(key: key);
+
+  final MovieVO? movie;
+
+
+  BannerView({required this.movie});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-         const Positioned.fill(
-          child: BannerImageView(),
+         Positioned.fill(
+          child: BannerImageView(imageUrl: movie?.posterPath ?? "",),
         ),
          const Positioned.fill(
           child: GradientView(),
         ),
          Align(
           alignment: Alignment.bottomLeft,
-          child: BannerTitleView(),
+          child: BannerTitleView(title: movie?.title ?? "",),
         ),
         Align(
           alignment: Alignment.center,
@@ -36,6 +42,12 @@ class BannerView extends StatelessWidget {
 
 
 class BannerTitleView extends StatelessWidget {
+
+  final String title;
+
+
+  BannerTitleView({required this.title});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,9 +55,9 @@ class BannerTitleView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
-            "The Wolverine 2013.",
+            title,
             style: TextStyle(
                 color: Colors.white,
                 fontSize: TEXT_HEADING_1X,
@@ -65,14 +77,16 @@ class BannerTitleView extends StatelessWidget {
 }
 
 class BannerImageView extends StatelessWidget {
-  const BannerImageView({
-    Key? key,
-  }) : super(key: key);
+
+  final String imageUrl;
+
+
+  BannerImageView({required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      "https://www.pixelstalk.net/wp-content/uploads/images6/Wolverine-Wallpaper-Desktop.jpg",
+     "$IMAGE_BASE_URL$imageUrl",
       fit: BoxFit.cover,
     );
   }

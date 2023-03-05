@@ -33,6 +33,7 @@ class MovieDetailsPage extends StatelessWidget {
                 MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
                 "",
                 seeMoreButtonVisibility: false,
+                actorsList: [],
               ),
               const SizedBox(
                 height: MARGIN_LARGE,
@@ -45,7 +46,7 @@ class MovieDetailsPage extends StatelessWidget {
                 height: MARGIN_LARGE,
               ),
               ActorsAndCreatorsSectionView(MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                  MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE)
+                  MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,actorsList: [],)
             ]))
           ],
         ),

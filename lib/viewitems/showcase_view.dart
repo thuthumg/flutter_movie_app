@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/data/vos/movie_vo.dart';
+import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/play_button_view.dart';
 import 'package:movie_app/widgets/title_text.dart';
 
 class ShowCaseView extends StatelessWidget {
+
+  final MovieVO? movie;
+
+
+  ShowCaseView({required this.movie});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +21,7 @@ class ShowCaseView extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.network(
-              "https://www.pixelstalk.net/wp-content/uploads/images6/Wolverine-Wallpaper-Desktop.jpg",
+              "$IMAGE_BASE_URL${movie?.posterPath}",
               fit: BoxFit.cover,
             ),
           ),
@@ -29,8 +37,8 @@ class ShowCaseView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    "Passengers",
+                  Text(
+                    movie?.title ?? "",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: TEXT_REGULAR_3X,

@@ -7,9 +7,9 @@ import 'package:movie_app/widgets/rating_view.dart';
 
 class MovieView extends StatelessWidget {
   final Function onTapMovie;
-  final MovieVO mMovie;
+  final MovieVO? mMovie;
 
-  MovieView(this.onTapMovie,this.mMovie);
+  MovieView({required this.onTapMovie,required this.mMovie});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MovieView extends StatelessWidget {
               onTapMovie();
             },
             child: Image.network(
-              "$IMAGE_BASE_URL${mMovie.posterPath}",
+              "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",
               height: 200,
               fit: BoxFit.cover,
             ),

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/data/vos/actor_vo.dart';
+import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 
 class ActorView extends StatelessWidget {
+
+  final ActorVO? actorVO;
+
+
+  ActorView({required this.actorVO});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,8 +20,10 @@ class ActorView extends StatelessWidget {
         width: MOVIE_LIST_ITEM_WIDTH,
         child: Stack(
           children: [
-            const Positioned.fill(
-              child: ActorImageView(),
+            Positioned.fill(
+              child: ActorImageView(
+                actorProfilePath: actorVO?.profilePath ?? "",
+              ),
             ),
             const Padding(
               padding: EdgeInsets.all(MARGIN_MEDIUM),
@@ -24,7 +34,9 @@ class ActorView extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: ActorNameAndLikeView(),
+              child: ActorNameAndLikeView(
+                actorName: actorVO?.name ?? "",
+              ),
             )
           ],
         ),
@@ -34,14 +46,16 @@ class ActorView extends StatelessWidget {
 }
 
 class ActorImageView extends StatelessWidget {
-  const ActorImageView({
-    Key? key,
-  }) : super(key: key);
+
+  final String actorProfilePath;
+
+
+  ActorImageView({required this.actorProfilePath});
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      "https://www.thefamouspeople.com/profiles/images/og-eddie-redmayne-14144.jpg",
+      "$IMAGE_BASE_URL$actorProfilePath",
       fit: BoxFit.cover,
     );
   }
@@ -62,6 +76,12 @@ class FavouriteButtonView extends StatelessWidget {
 }
 
 class ActorNameAndLikeView extends StatelessWidget {
+
+  final String actorName;
+
+
+  ActorNameAndLikeView({required this.actorName});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,8 +93,8 @@ class ActorNameAndLikeView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "Eddie Redmayne",
+          Text(
+            actorName,
             style: TextStyle(
                 fontSize: TEXT_REGULAR,
                 color: Colors.white,
