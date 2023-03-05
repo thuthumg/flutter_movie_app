@@ -48,5 +48,15 @@ class MovieModelImpl extends MovieModel{
     return _dataAgent.getTopRatedMovies(1);
   }
 
+  @override
+  Future<List<List<ActorVO>?>> getCreditsByMovie(int movieId) {
+    return _dataAgent.getCreditsByMovie(movieId);
+  }
+
+  @override
+  Future<MovieVO?> getMovieDetails(int movieId) {
+    return _dataAgent.getMovieDetails(movieId);
+  }
+
 
 }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/data/models/movie_model.dart';
+import 'package:movie_app/data/models/movie_model_impl.dart';
+import 'package:movie_app/data/vos/actor_vo.dart';
+import 'package:movie_app/data/vos/movie_vo.dart';
+import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/resources/strings.dart';
@@ -7,8 +12,49 @@ import 'package:movie_app/widgets/gradient_view.dart';
 import 'package:movie_app/widgets/rating_view.dart';
 import 'package:movie_app/widgets/title_text.dart';
 
-class MovieDetailsPage extends StatelessWidget {
+class MovieDetailsPage extends StatefulWidget {
+  final int movieId;
+
+  MovieDetailsPage({required this.movieId});
+
+  @override
+  State<MovieDetailsPage> createState() => _MovieDetailsPageState();
+}
+
+class _MovieDetailsPageState extends State<MovieDetailsPage> {
   final List<String> genreList = ["Family", "Fantasy", "Adventure"];
+
+  ///Model
+  MovieModel _movieModel = MovieModelImpl();
+
+  ///State Variables
+  MovieVO? movieDetails;
+  List<ActorVO>? cast;
+  List<ActorVO>? crew;
+
+  @override
+  void initState() {
+    ///Movie Detail data
+    _movieModel.getMovieDetails(widget.movieId).then((movieDetails) {
+      setState(() {
+        this.movieDetails = movieDetails;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    ///Cast and Crew
+    _movieModel.getCreditsByMovie(widget.movieId).then((castAndCrew) {
+      setState(() {
+        this.cast = castAndCrew.first;
+        this.crew = castAndCrew[1];
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +64,16 @@ class MovieDetailsPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             MovieDetailsSliverAppBarView(
-                ()=> Navigator.pop(context),
+              () => Navigator.pop(context),
+              movie: this.movieDetails,
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                child: TrailerSection(genreList),
+                child: TrailerSection(
+                    genreList: movieDetails?.getGenreListAsStringList() ?? [],
+                    storyLine: movieDetails?.overview ?? ""),
               ),
               const SizedBox(
                 height: MARGIN_LARGE,
@@ -33,20 +82,25 @@ class MovieDetailsPage extends StatelessWidget {
                 MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
                 "",
                 seeMoreButtonVisibility: false,
-                actorsList: [],
+                actorsList: this.cast,
               ),
               const SizedBox(
                 height: MARGIN_LARGE,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
-                child: AboutFilmSectionView(),
+                child: AboutFilmSectionView(
+                  movieVO: movieDetails,
+                ),
               ),
               const SizedBox(
                 height: MARGIN_LARGE,
               ),
-              ActorsAndCreatorsSectionView(MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                  MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,actorsList: [],)
+              ActorsAndCreatorsSectionView(
+                MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                actorsList: this.crew,
+              )
             ]))
           ],
         ),
@@ -56,9 +110,11 @@ class MovieDetailsPage extends StatelessWidget {
 }
 
 class AboutFilmSectionView extends StatelessWidget {
-  const AboutFilmSectionView({
-    Key? key,
-  }) : super(key: key);
+
+  final MovieVO? movieVO;
+
+
+  AboutFilmSectionView({required this.movieVO});
 
   @override
   Widget build(BuildContext context) {
@@ -69,24 +125,29 @@ class AboutFilmSectionView extends StatelessWidget {
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
-        AboutFilmInfoView("Original Title", "Fantastic Beasts and Where to Find Them"),
+        AboutFilmInfoView(
+            "Original Title",
+            movieVO?.title ?? ""),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
-        AboutFilmInfoView("Type:", "Family, Fantasy, Adventure"),
+        AboutFilmInfoView("Type:",
+           movieVO?.getGenreListAsCommaSeparatedString() ?? ""),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
-        AboutFilmInfoView("Production:", "United Kingdom, USA"),
+        AboutFilmInfoView("Production:",
+        movieVO?.getProductionCountriesAsCommaSeparatedString() ?? ""),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
-        AboutFilmInfoView("Premiere:", "8 November 2016(World)"),
+        AboutFilmInfoView("Premiere:",
+            movieVO?.releaseDate ?? ""),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
         AboutFilmInfoView("Description:",
-            "The Film begins in 1926. Newt Scamander back from a great trip, the purpose of which was to find and describe a range of fantastic animals.His brief stay in New York..MORE"),
+           movieVO?.overview ?? ""),
       ],
     );
   }
@@ -134,8 +195,9 @@ class AboutFilmInfoView extends StatelessWidget {
 
 class TrailerSection extends StatelessWidget {
   final List<String> genreList;
+  final String storyLine;
 
-  TrailerSection(this.genreList);
+  TrailerSection({required this.genreList, required this.storyLine});
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +208,9 @@ class TrailerSection extends StatelessWidget {
         const SizedBox(
           height: MARGIN_MEDIUM_3,
         ),
-        const StoryLineView(),
+        StoryLineView(
+          storyLine: this.storyLine
+        ),
         const SizedBox(
           height: MARGIN_MEDIUM_2,
         ),
@@ -221,9 +285,11 @@ class MovieDetailsScreenButtonView extends StatelessWidget {
 }
 
 class StoryLineView extends StatelessWidget {
-  const StoryLineView({
-    Key? key,
-  }) : super(key: key);
+
+  final String storyLine;
+
+
+  StoryLineView({required this.storyLine});
 
   @override
   Widget build(BuildContext context) {
@@ -237,8 +303,8 @@ class StoryLineView extends StatelessWidget {
         const SizedBox(
           height: MARGIN_MEDIUM,
         ),
-        const Text(
-          "Seventy years before Harry Potter reading a book by Newt Scamander, author experiencing extraordinary adventures in the mysterious, the New York Association of witches.",
+        Text(
+          storyLine,
           style: TextStyle(color: Colors.white, fontSize: TEXT_REGULAR_2X),
         ),
       ],
@@ -247,16 +313,17 @@ class StoryLineView extends StatelessWidget {
 }
 
 class MovieTimeAndGenreView extends StatelessWidget {
-  const MovieTimeAndGenreView({
-    Key? key,
+   MovieTimeAndGenreView({
     required this.genreList,
-  }) : super(key: key);
+  });
 
   final List<String> genreList;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      alignment: WrapAlignment.start,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         const Icon(
           Icons.access_time,
@@ -272,14 +339,11 @@ class MovieTimeAndGenreView extends StatelessWidget {
         const SizedBox(
           width: MARGIN_MEDIUM,
         ),
-        Row(
-          children: genreList
+       ...genreList
               .map(
                 (genre) => GenreChipView(genre),
               )
               .toList(),
-        ),
-        const Spacer(),
         const Icon(
           Icons.favorite_border,
           color: Colors.white,
@@ -297,13 +361,14 @@ class GenreChipView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Chip(
             backgroundColor: MOVIE_DETAILS_SCREEN_CHIP_BACKGROUND_COLOR,
             label: Text(
               genreText,
-              style:
-                  const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold),
             )),
         const SizedBox(
           width: MARGIN_SMALL,
@@ -314,11 +379,11 @@ class GenreChipView extends StatelessWidget {
 }
 
 class MovieDetailsSliverAppBarView extends StatelessWidget {
-
   final Function onTapBack;
 
-  MovieDetailsSliverAppBarView(this.onTapBack);
+  final MovieVO? movie;
 
+  MovieDetailsSliverAppBarView(this.onTapBack, {required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -326,24 +391,26 @@ class MovieDetailsSliverAppBarView extends StatelessWidget {
       automaticallyImplyLeading: false,
       backgroundColor: PRIMARY_COLOR,
       expandedHeight: MOVIE_DETAILS_SCREEN_SLIVER_APP_BAR_HEIGHT,
-     // floating: true,
+      // floating: true,
       pinned: true,
-    //  snap: true,
+      //  snap: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           children: [
-            const Positioned.fill(
-              child: MovieDetailsAppBarImageView(),
+            Positioned.fill(
+              child: MovieDetailsAppBarImageView(
+                imgeUrl: movie?.posterPath ?? "",
+              ),
             ),
             const Positioned.fill(
               child: GradientView(),
             ),
-             Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding:
-                    const EdgeInsets.only(top: MARGIN_XXLARGE, left: MARGIN_MEDIUM_2),
-                child: BackButtonView(()=> onTapBack()),
+                padding: const EdgeInsets.only(
+                    top: MARGIN_XXLARGE, left: MARGIN_MEDIUM_2),
+                child: BackButtonView(() => onTapBack()),
               ),
             ),
             const Align(
@@ -362,7 +429,7 @@ class MovieDetailsSliverAppBarView extends StatelessWidget {
                     left: MARGIN_MEDIUM_2,
                     right: MARGIN_MEDIUM_2,
                     bottom: MARGIN_LARGE),
-                child: MovieDetailsAppBarInfoView(),
+                child: MovieDetailsAppBarInfoView(movie: this.movie),
               ),
             )
           ],
@@ -373,6 +440,10 @@ class MovieDetailsSliverAppBarView extends StatelessWidget {
 }
 
 class MovieDetailsAppBarInfoView extends StatelessWidget {
+  final MovieVO? movie;
+
+  MovieDetailsAppBarInfoView({required this.movie});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -381,7 +452,8 @@ class MovieDetailsAppBarInfoView extends StatelessWidget {
       children: [
         Row(
           children: [
-            MovieDetailsYearView(),
+            MovieDetailsYearView(
+                yearStr: movie?.releaseDate?.substring(0, 4) ?? ""),
             Spacer(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -393,7 +465,7 @@ class MovieDetailsAppBarInfoView extends StatelessWidget {
                     const SizedBox(
                       height: MARGIN_SMALL,
                     ),
-                    TitleText("38876 VOTES"),
+                    TitleText("${movie?.voteCount} VOTES"),
                     const SizedBox(
                       height: MARGIN_CARD_MEDIUM_2,
                     )
@@ -402,9 +474,9 @@ class MovieDetailsAppBarInfoView extends StatelessWidget {
                 const SizedBox(
                   width: MARGIN_MEDIUM,
                 ),
-                const Text(
-                  "9.96",
-                  style: TextStyle(
+                Text(
+                  movie?.voteAverage.toString() ?? "",
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: MOVIE_DETAILS_RATING_TEXT_SIZE),
                 ),
@@ -415,9 +487,9 @@ class MovieDetailsAppBarInfoView extends StatelessWidget {
         const SizedBox(
           height: MARGIN_MEDIUM,
         ),
-        const Text(
-          "Fantastic Beasts and Where to Find Them",
-          style: TextStyle(
+        Text(
+          movie?.title ?? "",
+          style: const TextStyle(
               color: Colors.white,
               fontSize: TEXT_HEADING_2X,
               fontWeight: FontWeight.bold),
@@ -428,9 +500,9 @@ class MovieDetailsAppBarInfoView extends StatelessWidget {
 }
 
 class MovieDetailsYearView extends StatelessWidget {
-  const MovieDetailsYearView({
-    Key? key,
-  }) : super(key: key);
+  final String yearStr;
+
+  MovieDetailsYearView({required this.yearStr});
 
   @override
   Widget build(BuildContext context) {
@@ -443,10 +515,10 @@ class MovieDetailsYearView extends StatelessWidget {
           MARGIN_LARGE,
         ),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
-          "2016",
-          style: TextStyle(
+          yearStr,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -479,7 +551,7 @@ class BackButtonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         onTapBack();
       },
       child: Container(
@@ -500,14 +572,14 @@ class BackButtonView extends StatelessWidget {
 }
 
 class MovieDetailsAppBarImageView extends StatelessWidget {
-  const MovieDetailsAppBarImageView({
-    Key? key,
-  }) : super(key: key);
+  final String imgeUrl;
+
+  MovieDetailsAppBarImageView({required this.imgeUrl});
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      "https://media.wired.com/photos/59269d967034dc5f91bec129/master/pass/FantasticBeasts_HP.jpg",
+      "$IMAGE_BASE_URL$imgeUrl",
       fit: BoxFit.cover,
     );
   }

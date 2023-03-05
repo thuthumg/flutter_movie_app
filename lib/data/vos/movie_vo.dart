@@ -1,4 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movie_app/data/vos/collection_vo.dart';
+import 'package:movie_app/data/vos/genre_vo.dart';
+import 'package:movie_app/data/vos/production_country_vo.dart';
+import 'package:movie_app/data/vos/spoken_language_vo.dart';
+
+import 'production_company_vo.dart';
 part 'movie_vo.g.dart';
 
 @JsonSerializable()
@@ -46,6 +52,45 @@ class MovieVO{
   @JsonKey(name: "vote_count")
   int? voteCount;
 
+  @JsonKey(name: "belongs_to_collection")
+  CollectionVO? belongsToCollection;
+
+  @JsonKey(name: "budget")
+  double? budget;
+
+
+  @JsonKey(name: "genres")
+  List<GenreVO>? genres;
+
+  @JsonKey(name: "homepage")
+  String? homePage;
+
+  @JsonKey(name: "imdb_id")
+  String? imdbId;
+
+  @JsonKey(name: "production_companies")
+  List<ProductionCompanyVO>? productionCompanies;
+
+
+  @JsonKey(name: "production_countries")
+  List<ProductionCountryVO>? productionCountries;
+
+  @JsonKey(name: "revenue")
+  int? revenue;
+
+  @JsonKey(name: "runtime")
+  int? runTime;
+
+  @JsonKey(name: "spoken_languages")
+  List<SpokenLanguageVO>? spokenLanguages;
+
+  @JsonKey(name: "status")
+  String? status;
+
+  @JsonKey(name: "tagline")
+  String? tagline;
+
+
   MovieVO(
       this.adult,
       this.backDropPath,
@@ -60,8 +105,19 @@ class MovieVO{
       this.title,
       this.video,
       this.voteAverage,
-      this.voteCount);
-
+      this.voteCount,
+      this.belongsToCollection,
+      this.budget,
+      this.genres,
+      this.homePage,
+      this.imdbId,
+      this.productionCompanies,
+      this.productionCountries,
+      this.revenue,
+      this.runTime,
+      this.spokenLanguages,
+      this.status,
+      this.tagline);
 
   factory MovieVO.fromJson(Map<String,dynamic> json) =>_$MovieVOFromJson(json);
   Map<String,dynamic> toJson()=> _$MovieVOToJson(this);
@@ -70,4 +126,23 @@ class MovieVO{
   String toString() {
     return 'MovieVO{adult: $adult, backDropPath: $backDropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, reelaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount}';
   }
+
+  List<String> getGenreListAsStringList(){
+
+    return genres?.map((genre) => genre.name ?? "").toList() ?? [];
+
+  }
+
+  String getGenreListAsCommaSeparatedString(){
+
+    return getGenreListAsStringList().join(",");
+
+  }
+
+  String getProductionCountriesAsCommaSeparatedString(){
+
+    return productionCountries?.map((country) => country.name ?? "").toList().join(",") ?? "";
+
+  }
+
 }

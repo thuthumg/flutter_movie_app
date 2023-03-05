@@ -6,10 +6,12 @@ import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/rating_view.dart';
 
 class MovieView extends StatelessWidget {
-  final Function onTapMovie;
+ // final Function onTapMovie;
   final MovieVO? mMovie;
 
-  MovieView({required this.onTapMovie,required this.mMovie});
+  MovieView({
+   // required this.onTapMovie,
+    required this.mMovie});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +21,10 @@ class MovieView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              onTapMovie();
-            },
-            child: Image.network(
-              "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",
-              height: 200,
-              fit: BoxFit.cover,
-            ),
+          Image.network(
+            "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",
+            height: 200,
+            fit: BoxFit.cover,
           ),
           const SizedBox(
             height: MARGIN_MEDIUM,
