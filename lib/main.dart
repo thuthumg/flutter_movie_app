@@ -7,11 +7,11 @@ void main() {
  // HttpMovieDataAgentImpl().getNowPlayingMovies(1);
  // DioMovieDataAgentImpl().getNowPlayingMovies(1);
   RetrofitDataAgentImpl().getNowPlayingMovies(1);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
