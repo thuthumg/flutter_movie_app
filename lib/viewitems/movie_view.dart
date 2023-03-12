@@ -15,26 +15,50 @@ class MovieView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: MARGIN_MEDIUM),
+      margin: const EdgeInsets.only(right: MARGIN_MEDIUM_3),
       width: MOVIE_LIST_ITEM_WIDTH,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          SizedBox(
-            height: 200,
-            child: Center(
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: '$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}',
-                placeholder: (context, url) => const SizedBox(
-                    width: 35,
-                    height: 35,
-                    child: CircularProgressIndicator(),),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+          Center(
+            child: CachedNetworkImage(
+              imageUrl: '$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}',
+              imageBuilder: (context, imageProvider) => Container(
+                width: MOVIE_LIST_ITEM_WIDTH,
+                height: 200,
+                decoration: BoxDecoration(
+                //  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
+              placeholder: (context, url) => SizedBox(
+                          width: 35,
+                          height: 35,
+                          child: CircularProgressIndicator(),),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
+
+          // SizedBox(
+          //   height: 200,
+          //   child: Center(
+          //     child: CachedNetworkImage(
+          //       alignment: Alignment.center,
+          //      // width: MediaQuery.of(context).size.width * 0.4,
+          //      // height: MediaQuery.of(context).size.height,
+          //       fit: BoxFit.cover,
+          //       imageUrl: '$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}',
+          //       placeholder: (context, url) => const SizedBox(
+          //           width: 35,
+          //           height: 35,
+          //           child: CircularProgressIndicator(),),
+          //       errorWidget: (context, url, error) => Icon(Icons.error),
+          //     ),
+          //   ),
+          // ),
 
           // Image.network(
           //   "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",

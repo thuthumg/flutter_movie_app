@@ -464,7 +464,7 @@ class _BannerSectionViewState extends State<BannerSectionView> {
         ),
         const SizedBox(height: MARGIN_MEDIUM_2),
         DotsIndicator(
-          dotsCount: widget.movieList?.length ?? 1,
+          dotsCount: widget.movieList?.length == 0 ? 1 : widget.movieList?.length?? 1,
           position: _position,
           decorator: const DotsDecorator(
               color: HOME_SCREEN_BANNER_DOTS_INACTIVE_COLOR,
