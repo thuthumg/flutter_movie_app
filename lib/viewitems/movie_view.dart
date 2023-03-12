@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/rating_view.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class MovieView extends StatelessWidget {
  // final Function onTapMovie;
   final MovieVO? mMovie;
@@ -21,11 +20,27 @@ class MovieView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",
+
+          SizedBox(
             height: 200,
-            fit: BoxFit.cover,
+            child: Center(
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: '$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}',
+                placeholder: (context, url) => const SizedBox(
+                    width: 35,
+                    height: 35,
+                    child: CircularProgressIndicator(),),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
           ),
+
+          // Image.network(
+          //   "$IMAGE_BASE_URL${mMovie?.posterPath ?? ""}",
+          //   height: 200,
+          //   fit: BoxFit.cover,
+          // ),
           const SizedBox(
             height: MARGIN_MEDIUM,
           ),
@@ -58,4 +73,7 @@ class MovieView extends StatelessWidget {
       ),
     );
   }
+
+
+
 }

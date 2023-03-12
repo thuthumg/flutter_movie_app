@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/vos/actor_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
@@ -54,10 +55,23 @@ class ActorImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      "$IMAGE_BASE_URL$actorProfilePath",
-      fit: BoxFit.cover,
-    );
+    return
+      CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl:   "$IMAGE_BASE_URL$actorProfilePath",
+        placeholder: (context, url) => const Center(
+          child: SizedBox(
+              width: 35,
+              height: 35,
+              child: CircularProgressIndicator(),),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      );
+    //
+    //   Image.network(
+    //   "$IMAGE_BASE_URL$actorProfilePath",
+    //   fit: BoxFit.cover,
+    // );
   }
 }
 

@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
-import 'package:movie_app/resources/colors.dart';
 import 'package:movie_app/resources/dimens.dart';
 import 'package:movie_app/widgets/gradient_view.dart';
 import 'package:movie_app/widgets/play_button_view.dart';
@@ -85,9 +85,25 @@ class BannerImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-     "$IMAGE_BASE_URL$imageUrl",
-      fit: BoxFit.cover,
-    );
+    return
+
+
+      CachedNetworkImage(
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+        imageUrl:    "$IMAGE_BASE_URL$imageUrl",
+        placeholder: (context, url) => const Center(
+          child: SizedBox(
+              width: 35,
+              height: 35,
+              child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      );
+    //
+    //   Image.network(
+    //  "$IMAGE_BASE_URL$imageUrl",
+    //   fit: BoxFit.cover,
+    // );
   }
 }

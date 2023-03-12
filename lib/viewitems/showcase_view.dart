@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/vos/movie_vo.dart';
 import 'package:movie_app/network/api_constants.dart';
@@ -20,10 +21,24 @@ class ShowCaseView extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: Image.network(
-              "$IMAGE_BASE_URL${movie?.posterPath}",
-              fit: BoxFit.cover,
-            ),
+            child:  CachedNetworkImage(
+      fit: BoxFit.cover,
+        imageUrl:   "$IMAGE_BASE_URL${movie?.posterPath}",
+        placeholder: (context, url) => Center(
+          child: SizedBox(
+              width: 35,
+              height: 35,
+              child: CircularProgressIndicator()),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+
+
+            //
+            // Image.network(
+            //   "$IMAGE_BASE_URL${movie?.posterPath}",
+            //   fit: BoxFit.cover,
+            // ),
           ),
           Align(
             alignment: Alignment.center,

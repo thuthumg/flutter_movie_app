@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'date_vo.dart';
+part of 'production_country_vo.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DateVOAdapter extends TypeAdapter<DateVO> {
+class ProductionCountryVOAdapter extends TypeAdapter<ProductionCountryVO> {
   @override
-  final int typeId = 4;
+  final int typeId = 8;
 
   @override
-  DateVO read(BinaryReader reader) {
+  ProductionCountryVO read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DateVO(
+    return ProductionCountryVO(
       fields[0] as String?,
       fields[1] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, DateVO obj) {
+  void write(BinaryWriter writer, ProductionCountryVO obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.maximum)
+      ..write(obj.iso31661)
       ..writeByte(1)
-      ..write(obj.minimum);
+      ..write(obj.name);
   }
 
   @override
@@ -38,7 +38,7 @@ class DateVOAdapter extends TypeAdapter<DateVO> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DateVOAdapter &&
+      other is ProductionCountryVOAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
@@ -47,12 +47,15 @@ class DateVOAdapter extends TypeAdapter<DateVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-DateVO _$DateVOFromJson(Map<String, dynamic> json) => DateVO(
-      json['maximum'] as String?,
-      json['minimum'] as String?,
+ProductionCountryVO _$ProductionCountryVOFromJson(Map<String, dynamic> json) =>
+    ProductionCountryVO(
+      json['iso_3166_1'] as String?,
+      json['name'] as String?,
     );
 
-Map<String, dynamic> _$DateVOToJson(DateVO instance) => <String, dynamic>{
-      'maximum': instance.maximum,
-      'minimum': instance.minimum,
+Map<String, dynamic> _$ProductionCountryVOToJson(
+        ProductionCountryVO instance) =>
+    <String, dynamic>{
+      'iso_3166_1': instance.iso31661,
+      'name': instance.name,
     };

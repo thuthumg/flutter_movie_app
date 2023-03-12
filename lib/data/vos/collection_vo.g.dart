@@ -1,35 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'genre_vo.dart';
+part of 'collection_vo.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class GenreVOAdapter extends TypeAdapter<GenreVO> {
+class CollectionVOAdapter extends TypeAdapter<CollectionVO> {
   @override
-  final int typeId = 5;
+  final int typeId = 2;
 
   @override
-  GenreVO read(BinaryReader reader) {
+  CollectionVO read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GenreVO(
-      id: fields[0] as int?,
-      name: fields[1] as String?,
+    return CollectionVO(
+      fields[0] as int?,
+      fields[1] as String?,
+      fields[2] as String?,
+      fields[3] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, GenreVO obj) {
+  void write(BinaryWriter writer, CollectionVO obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.backdropPath)
+      ..writeByte(3)
+      ..write(obj.posterPath);
   }
 
   @override
@@ -38,7 +44,7 @@ class GenreVOAdapter extends TypeAdapter<GenreVO> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GenreVOAdapter &&
+      other is CollectionVOAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
@@ -47,12 +53,17 @@ class GenreVOAdapter extends TypeAdapter<GenreVO> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-GenreVO _$GenreVOFromJson(Map<String, dynamic> json) => GenreVO(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
+CollectionVO _$CollectionVOFromJson(Map<String, dynamic> json) => CollectionVO(
+      json['id'] as int?,
+      json['name'] as String?,
+      json['backdrop_path'] as String?,
+      json['poster_path'] as String?,
     );
 
-Map<String, dynamic> _$GenreVOToJson(GenreVO instance) => <String, dynamic>{
+Map<String, dynamic> _$CollectionVOToJson(CollectionVO instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'backdrop_path': instance.backdropPath,
+      'poster_path': instance.posterPath,
     };

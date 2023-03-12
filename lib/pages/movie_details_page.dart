@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/data/models/movie_model.dart';
 import 'package:movie_app/data/models/movie_model_impl.dart';
@@ -42,6 +43,17 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     }).catchError((error) {
       debugPrint(error.toString());
     });
+
+
+    ///Movie Detail data from database
+    _movieModel.getMovieDetailsFromDatabase(widget.movieId).then((movieDetails) {
+      setState(() {
+        this.movieDetails = movieDetails;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
 
     ///Cast and Crew
     _movieModel.getCreditsByMovie(widget.movieId).then((castAndCrew) {
@@ -578,9 +590,21 @@ class MovieDetailsAppBarImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      "$IMAGE_BASE_URL$imgeUrl",
-      fit: BoxFit.cover,
-    );
+    return
+      CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl:  "$IMAGE_BASE_URL$imgeUrl",
+        // placeholder: (context, url) => SizedBox(
+        //   width: 35,
+        //     height: 35,
+        //     child: CircularProgressIndicator()),
+        // errorWidget: (context, url, error) => Icon(Icons.error),
+      );
+
+
+    //   Image.network(
+    //   "$IMAGE_BASE_URL$imgeUrl",
+    //   fit: BoxFit.cover,
+    // );
   }
 }

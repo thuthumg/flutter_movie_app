@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    /// Now Playing movies
+    /// Now Playing movies from Network
     mMovieModel.getNowPlayingMovies().then((movieList) {
       setState(() {
         nowPlayingMovies = movieList;
@@ -53,7 +53,16 @@ class _HomePageState extends State<HomePage> {
       debugPrint(error.toString());
     });
 
-    /// Popular Movies
+    /// Now Playing movies from Database
+    mMovieModel.getNowPlayingMoviesFromDatabase().then((movieList) {
+      setState(() {
+        nowPlayingMovies = movieList;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    /// Popular Movies from Network
     mMovieModel.getPopularMovies().then((movieList) {
       setState(() {
         popularMovies = movieList;
@@ -62,7 +71,16 @@ class _HomePageState extends State<HomePage> {
       debugPrint(error.toString());
     });
 
-    /// Top Rated Movies
+    /// Popular Movies from Database
+    mMovieModel.getPopularMoviesFromDatabase().then((movieList) {
+      setState(() {
+        popularMovies = movieList;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    /// Top Rated Movies(showcases) from NetWork
     mMovieModel.getTopRatedMovies().then((movieList) {
       setState(() {
         topRatedMovies = movieList;
@@ -71,7 +89,16 @@ class _HomePageState extends State<HomePage> {
       debugPrint(error.toString());
     });
 
-    ///Genres
+    /// Top Rated Movies(Showcases) from Database
+    mMovieModel.getTopRatedMoviesFromDatabase().then((movieList) {
+      setState(() {
+        topRatedMovies = movieList;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    ///Genres from network
     mMovieModel.getGenres().then((genres) {
       setState(() {
         this.genres = genres;
@@ -81,8 +108,27 @@ class _HomePageState extends State<HomePage> {
       debugPrint(error.toString());
     });
 
-    ///Actors
+    ///Genres from database
+    mMovieModel.getGenresFromDatabase().then((genres) {
+      setState(() {
+        this.genres = genres;
+      });
+      _getMoviesByGenre(genres?.first.id ?? 0);
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    ///Actors from network
     mMovieModel.getActors(1).then((actors) {
+      setState(() {
+        this.actors = actors;
+      });
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+
+    ///Actors from database
+    mMovieModel.getAllActorsFromDatabase().then((actors) {
       setState(() {
         this.actors = actors;
       });
@@ -219,7 +265,7 @@ class GenreSectionView extends StatelessWidget {
               tabs: genreList
                       ?.map(
                         (genre) => Tab(
-                          child: Text(genre?.name ?? ""),
+                          child: Text(genre.name ?? ""),
                         ),
                       )
                       .toList() ??
