@@ -137,6 +137,7 @@ class MovieModelImpl extends MovieModel {
 
   @override
   Future<List<MovieVO>?> getNowPlayingMoviesFromDatabase() {
+    getNowPlayingMovies();
     return Future.value(mMovieDao
         .getAllMovies()
         .where((movie) => movie.isNowPlaying ?? true)
@@ -145,6 +146,7 @@ class MovieModelImpl extends MovieModel {
 
   @override
   Future<List<MovieVO>?> getPopularMoviesFromDatabase() {
+    getPopularMovies();
     return Future.value(mMovieDao
         .getAllMovies()
         .where((movie) => movie.isPopular ?? true)
@@ -153,6 +155,7 @@ class MovieModelImpl extends MovieModel {
 
   @override
   Future<List<MovieVO>?> getTopRatedMoviesFromDatabase() {
+    getTopRatedMovies();
     return Future.value(mMovieDao
         .getAllMovies()
         .where((movie) => movie.isTopRated ?? true)
