@@ -90,22 +90,22 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       StreamBuilder(
                         stream: _bloc.crewStreamController.stream,
                         builder: (BuildContext context, AsyncSnapshot<List<ActorVO>?> crewSnapshot) {
-                          //&& crewSnapshot.hasData.isNotEmpty?? false
-                          // if(crewSnapshot.hasData){
-                          //   return ActorsAndCreatorsSectionView(
-                          //     MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                          //     MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
-                          //     actorsList: crewSnapshot.data,
-                          //   );
-                          // }else{
-                          //   return Container();
-                          // }
 
-                          return ActorsAndCreatorsSectionView(
-                            MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                            MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
-                            actorsList: crewSnapshot.data,
-                          );
+                          if(crewSnapshot.hasData && (crewSnapshot?.data?.isNotEmpty??false)){
+                            return ActorsAndCreatorsSectionView(
+                              MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                              MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                              actorsList: crewSnapshot.data,
+                            );
+                          }else{
+                            return Container();
+                          }
+                          //
+                          // return ActorsAndCreatorsSectionView(
+                          //   MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                          //   MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                          //   actorsList: crewSnapshot.data,
+                          // );
 
                         },
                       )
