@@ -16,139 +16,134 @@ import 'package:movie_app/widgets/actors_and_creators_section_view.dart';
 import 'package:movie_app/widgets/see_more_text.dart';
 import 'package:movie_app/widgets/title_text.dart';
 import 'package:movie_app/widgets/title_text_with_see_more_widget_view.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  // MovieModel mMovieModel = MovieModelImpl();
 
-class _HomePageState extends State<HomePage> {
-  MovieModel mMovieModel = MovieModelImpl();
-
-  List<String> genreList = [
+ /* List<String> genreList = [
     "Action",
     "Adventure",
     "Horror",
     "Comedy",
     "Thriller",
     "Drama"
-  ];
+  ];*/
+  //
+  // List<MovieVO>? mNowPlayingMovies;
+  // List<MovieVO>? mPopularMovies;
+  // List<MovieVO>? mTopRatedMovies;
+  // List<MovieVO>? mMoviesByGenre;
+  // List<GenreVO>? mGenres;
+  // List<ActorVO>? mActors;
+  //
+  // @override
+  // void initState() {
+  //   /// Now Playing movies from Network
+  //   // mMovieModel.getNowPlayingMovies().then((movieList) {
+  //   //   setState(() {
+  //   //     nowPlayingMovies = movieList;
+  //   //   });
+  //   // }).catchError((error) {
+  //   //   debugPrint(error.toString());
+  //   // });
+  //
+  //   /// Now Playing movies from Database
+  //   mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
+  //     setState(() {
+  //       mNowPlayingMovies = movieList;
+  //     });
+  //   }).onError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   /// Popular Movies from Network
+  //   // mMovieModel.getPopularMovies().then((movieList) {
+  //   //   setState(() {
+  //   //     popularMovies = movieList;
+  //   //   });
+  //   // }).catchError((error) {
+  //   //   debugPrint(error.toString());
+  //   // });
+  //
+  //   /// Popular Movies from Database
+  //   mMovieModel.getPopularMoviesFromDatabase().listen((movieList) {
+  //     setState(() {
+  //       mPopularMovies = movieList;
+  //     });
+  //   }).onError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   /// Top Rated Movies(showcases) from NetWork
+  //   // mMovieModel.getTopRatedMovies().then((movieList) {
+  //   //   setState(() {
+  //   //     topRatedMovies = movieList;
+  //   //   });
+  //   // }).catchError((error) {
+  //   //   debugPrint(error.toString());
+  //   // });
+  //
+  //   /// Top Rated Movies(Showcases) from Database
+  //   mMovieModel.getTopRatedMoviesFromDatabase().listen((movieList) {
+  //     setState(() {
+  //       mTopRatedMovies = movieList;
+  //     });
+  //   }).onError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   ///Genres from network
+  //   mMovieModel.getGenres().then((genres) {
+  //     setState(() {
+  //       this.mGenres = genres;
+  //     });
+  //     _getMoviesByGenre(genres?.first.id ?? 0);
+  //   }).catchError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   ///Genres from database
+  //   mMovieModel.getGenresFromDatabase().then((genres) {
+  //     setState(() {
+  //       this.mGenres = genres;
+  //     });
+  //     _getMoviesByGenre(genres?.first.id ?? 0);
+  //   }).catchError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   ///Actors from network
+  //   mMovieModel.getActors(1).then((actors) {
+  //     setState(() {
+  //       this.mActors = actors;
+  //     });
+  //   }).catchError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   ///Actors from database
+  //   mMovieModel.getAllActorsFromDatabase().then((actors) {
+  //     setState(() {
+  //       this.mActors = actors;
+  //     });
+  //   }).catchError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  //
+  //   super.initState();
+  // }
 
-  ///State Variables
-  List<MovieVO>? nowPlayingMovies;
-  List<MovieVO>? popularMovies;
-  List<MovieVO>? topRatedMovies;
-  List<MovieVO>? moviesByGenre;
-  List<GenreVO>? genres;
-  List<ActorVO>? actors;
-
-  @override
-  void initState() {
-    /// Now Playing movies from Network
-    // mMovieModel.getNowPlayingMovies().then((movieList) {
-    //   setState(() {
-    //     nowPlayingMovies = movieList;
-    //   });
-    // }).catchError((error) {
-    //   debugPrint(error.toString());
-    // });
-
-    /// Now Playing movies from Database
-    mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
-      setState(() {
-        nowPlayingMovies = movieList;
-      });
-    }).onError((error) {
-      debugPrint(error.toString());
-    });
-
-    /// Popular Movies from Network
-    // mMovieModel.getPopularMovies().then((movieList) {
-    //   setState(() {
-    //     popularMovies = movieList;
-    //   });
-    // }).catchError((error) {
-    //   debugPrint(error.toString());
-    // });
-
-    /// Popular Movies from Database
-    mMovieModel.getPopularMoviesFromDatabase().listen((movieList) {
-      setState(() {
-        popularMovies = movieList;
-      });
-    }).onError((error) {
-      debugPrint(error.toString());
-    });
-
-    /// Top Rated Movies(showcases) from NetWork
-    // mMovieModel.getTopRatedMovies().then((movieList) {
-    //   setState(() {
-    //     topRatedMovies = movieList;
-    //   });
-    // }).catchError((error) {
-    //   debugPrint(error.toString());
-    // });
-
-    /// Top Rated Movies(Showcases) from Database
-    mMovieModel.getTopRatedMoviesFromDatabase().listen((movieList) {
-      setState(() {
-        topRatedMovies = movieList;
-      });
-    }).onError((error) {
-      debugPrint(error.toString());
-    });
-
-    ///Genres from network
-    mMovieModel.getGenres().then((genres) {
-      setState(() {
-        this.genres = genres;
-      });
-      _getMoviesByGenre(genres?.first.id ?? 0);
-    }).catchError((error) {
-      debugPrint(error.toString());
-    });
-
-    ///Genres from database
-    mMovieModel.getGenresFromDatabase().then((genres) {
-      setState(() {
-        this.genres = genres;
-      });
-      _getMoviesByGenre(genres?.first.id ?? 0);
-    }).catchError((error) {
-      debugPrint(error.toString());
-    });
-
-    ///Actors from network
-    mMovieModel.getActors(1).then((actors) {
-      setState(() {
-        this.actors = actors;
-      });
-    }).catchError((error) {
-      debugPrint(error.toString());
-    });
-
-    ///Actors from database
-    mMovieModel.getAllActorsFromDatabase().then((actors) {
-      setState(() {
-        this.actors = actors;
-      });
-    }).catchError((error) {
-      debugPrint(error.toString());
-    });
-
-    super.initState();
-  }
-
-  void _getMoviesByGenre(int genreId) {
-    mMovieModel.getMoviesByGenre(genreId).then((moviesByGenre) {
-      setState(() {
-        //debugPrint("------------movies by genre api call----------------${moviesByGenre?.length} + ${genres?.first.id}");
-        this.moviesByGenre = moviesByGenre;
-      });
-    }).catchError((error) {
-      debugPrint(error.toString());
-    });
-  }
+  // void _getMoviesByGenre(int genreId) {
+  //   mMovieModel.getMoviesByGenre(genreId).then((moviesByGenre) {
+  //     setState(() {
+  //       //debugPrint("------------movies by genre api call----------------${moviesByGenre?.length} + ${genres?.first.id}");
+  //       this.mMoviesByGenre = moviesByGenre;
+  //     });
+  //   }).catchError((error) {
+  //     debugPrint(error.toString());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -179,33 +174,62 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BannerSectionView(
-                movieList: popularMovies?.take(5).toList(),
+              ScopedModelDescendant<MovieModelImpl>(
+
+                builder: (BuildContext context, Widget? child, MovieModelImpl model){
+                  return BannerSectionView(
+                    movieList: model.mPopularMovies?.take(5).toList(),
+                  );
+                },
+
               ),
               const SizedBox(height: MARGIN_LARGE),
-              BestPopularMoviesAndSerialsSectionView(
-                  onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId),
-                  mNowPlayingMovieList: nowPlayingMovies),
+              ScopedModelDescendant(
+                builder: (BuildContext context, Widget? child, MovieModelImpl model) {
+                  return BestPopularMoviesAndSerialsSectionView(
+                      onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId,model),
+                      mNowPlayingMovieList: model.mNowPlayingMovies);
+                },
+
+              ),
               const SizedBox(height: MARGIN_LARGE),
               CheckMovieShowTimeSectionView(),
               const SizedBox(height: MARGIN_LARGE),
-              GenreSectionView(
-                onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId),
-                genreList: genres,
-                moviesByGenre: moviesByGenre,
-                onChooseGenre: (genreId){
-                  if(genreId != null){
-                    _getMoviesByGenre(genreId);
-                  }
+
+              ScopedModelDescendant(
+                builder: (BuildContext context, Widget? child, MovieModelImpl model) {
+                  return GenreSectionView(
+                    onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId,model),
+                    genreList: model.mGenres,
+                    moviesByGenre: model.mMoviesByGenre,
+                    onChooseGenre: (genreId){
+                      if(genreId != null){
+                        model.getMoviesByGenre(genreId);
+                      }
+                    },
+                  );
+                },
+
+              ),
+
+              const SizedBox(height: MARGIN_LARGE),
+              ScopedModelDescendant(
+                builder: (BuildContext context, Widget? child, MovieModelImpl model) {
+                  return ShowCasesSectionView(topRatedMovies: model.mTopRatedMovies);
                 },
               ),
+
               const SizedBox(height: MARGIN_LARGE),
-              ShowCasesSectionView(topRatedMovies: topRatedMovies),
-              const SizedBox(height: MARGIN_LARGE),
-              ActorsAndCreatorsSectionView(
-                BEST_ACTORS_TITLE,
-                BEST_ACTORS_SEE_MORE,
-                actorsList: actors,
+              ScopedModelDescendant(
+                builder: (BuildContext context, Widget? child, MovieModelImpl model) {
+
+                  return ActorsAndCreatorsSectionView(
+                    BEST_ACTORS_TITLE,
+                    BEST_ACTORS_SEE_MORE,
+                    actorsList: model.mActors,
+                  );
+                },
+
               ),
               // const SizedBox(height: MARGIN_LARGE),
             ],
@@ -215,26 +239,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _navigateToMovieDetailsScreen(BuildContext context,int? movieId) {
+  void _navigateToMovieDetailsScreen(BuildContext context,int? movieId,MovieModelImpl model) {
+
 
     if(movieId != null)
-      {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MovieDetailsPage(
-              movieId: movieId,
-            ),
-          ),
-        );
-      }
+    {
+      model.getMovieDetails(movieId);
+      model.getMovieDetailsFromDatabase(movieId);
+      model.getCreditsByMovie(movieId);
 
-    // return Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => MovieDetailsPage(),
-    //   ),
-    // );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieDetailsPage(),
+        ),
+      );
+    }
   }
 }
 
