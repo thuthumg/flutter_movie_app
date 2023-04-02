@@ -10,12 +10,12 @@ import 'package:movie_app/data/vos/movie_vo.dart';
 class HomeBloc {
   ///1
   ///Reactive Streams
-  late StreamController<List<MovieVO>> mNowPlayingStreamController;
-  late StreamController<List<MovieVO>> mPopularMoviesListStreamController;
-  late StreamController<List<GenreVO>> mGenreListStreamController;
-  late StreamController<List<ActorVO>> mActorsStreamController;
-  late StreamController<List<MovieVO>> mShowCaseMovieListStreamController;
-  late StreamController<List<MovieVO>> mMoviesByGenreListStreamController;
+  StreamController<List<MovieVO>> mNowPlayingStreamController = StreamController();
+  StreamController<List<MovieVO>> mPopularMoviesListStreamController= StreamController();
+  StreamController<List<GenreVO>> mGenreListStreamController= StreamController();
+  StreamController<List<ActorVO>> mActorsStreamController= StreamController();
+  StreamController<List<MovieVO>> mShowCaseMovieListStreamController= StreamController();
+  StreamController<List<MovieVO>> mMoviesByGenreListStreamController= StreamController();
 
   ///close stream controller
   void dispose() {
