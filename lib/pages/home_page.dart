@@ -33,6 +33,12 @@ class _HomePageState extends State<HomePage> {
       super.initState();
   }
 
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
+  }
+
   // void _getMoviesByGenre(int genreId) {
   //   mMovieModel.getMoviesByGenre(genreId).then((moviesByGenre) {
   //     setState(() {
