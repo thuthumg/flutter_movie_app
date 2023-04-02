@@ -75,9 +75,9 @@ class HomePage extends StatelessWidget {
                     onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId),
                     genreList: bloc.mGenres,
                     moviesByGenre: bloc.mMoviesByGenreList,
-                    onChooseGenre: (genreId){
+                    onTapGenre: (genreId){
                       if(genreId != null){
-                       // _getMoviesByGenre(genreId);
+                       bloc.onTapGenre(genreId);
                       }
                     },
                   ),
@@ -131,13 +131,13 @@ class GenreSectionView extends StatelessWidget {
   final List<GenreVO>? genreList;
   final List<MovieVO>? moviesByGenre;
   final Function(int?) onTapMovie;
-  final Function(int?) onChooseGenre;
+  final Function(int?) onTapGenre;
 
   GenreSectionView(
       {required this.onTapMovie,
       required this.genreList,
       required this.moviesByGenre,
-      required this.onChooseGenre});
+      required this.onTapGenre});
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class GenreSectionView extends StatelessWidget {
                       .toList() ??
                   [],
               onTap: (index){
-                  onChooseGenre(genreList?[index].id);
+                  onTapGenre(genreList?[index].id);
               },
             ),
           ),
