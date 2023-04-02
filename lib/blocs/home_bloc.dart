@@ -58,8 +58,7 @@ class HomeBloc {
     mMovieModel.getGenres().then((genres) {
      mGenreListStreamController.sink.add(genres??[]);
      ///Movies By Genre
-      _getMoviesByGenre(genres?.first.id ?? 0);
-
+      getMoviesByGenreAndRefresh(genres?.first.id ?? 0);
     }).catchError((error) {
       debugPrint(error.toString());
     });
@@ -67,9 +66,8 @@ class HomeBloc {
     ///Genres from database
     mMovieModel.getGenresFromDatabase().then((genres) {
       mGenreListStreamController.sink.add(genres??[]);
-
       ///Movies By Genre
-      _getMoviesByGenre(genres?.first.id ?? 0);
+      getMoviesByGenreAndRefresh(genres?.first.id ?? 0);
     }).catchError((error) {
       debugPrint(error.toString());
     });
@@ -89,11 +87,12 @@ class HomeBloc {
     });
   }
 
-
-  void _getMoviesByGenre(int genreId) {
+  // void onTapGenre(int genreId){
+  //   getMoviesByGenreAndRefresh(genreId);
+  // }
+  void getMoviesByGenreAndRefresh(int genreId) {
     mMovieModel.getMoviesByGenre(genreId).then((movieByGenre){
       mMoviesByGenreListStreamController.sink.add(movieByGenre??[]);
-
     }).catchError((error){});
   }
 
