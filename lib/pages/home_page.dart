@@ -52,47 +52,56 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Consumer<HomeBloc>(
-                  builder: (BuildContext context, bloc, Widget? child) {
+                Selector<HomeBloc,List<MovieVO>?>(
+                  selector: (context,bloc)=> bloc.mPopularMoviesList,
+                  builder: (context, popularMoviesList, child) {
                     return BannerSectionView(
-                      movieList: bloc.mPopularMoviesList?.take(5).toList(),
+                      movieList: popularMoviesList?.take(8).toList(),
                     );
                   },
 
                 ),
                 const SizedBox(height: MARGIN_LARGE),
-                Consumer<HomeBloc>(
-                  builder: (BuildContext context, bloc, Widget? child) => BestPopularMoviesAndSerialsSectionView(
+                Selector<HomeBloc,List<MovieVO>?>(
+                  selector: (context,bloc)=> bloc.mNowPlayingMoviesList,
+                  builder: (context, nowPlayingMoviesList, child) => BestPopularMoviesAndSerialsSectionView(
                       onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId),
-                      mNowPlayingMovieList: bloc.mNowPlayingMoviesList)
+                      mNowPlayingMovieList: nowPlayingMoviesList)
                 ),
                 const SizedBox(height: MARGIN_LARGE),
                 CheckMovieShowTimeSectionView(),
                 const SizedBox(height: MARGIN_LARGE),
-                Consumer<HomeBloc>(
-                  builder: (BuildContext context, bloc, Widget? child) =>
-                      GenreSectionView(
+                Selector<HomeBloc,List<GenreVO>?>(
+                  selector: (context,bloc)=> bloc.mGenres,
+                  builder: (context, genresList, child) =>
+                      Selector<HomeBloc,List<MovieVO>?>(
+                        selector: (context,bloc)=>bloc.mMoviesByGenreList,
+                        builder:(context, moviesByGenreList, child) =>GenreSectionView(
                     onTapMovie: (movieId) => _navigateToMovieDetailsScreen(context,movieId),
-                    genreList: bloc.mGenres,
-                    moviesByGenre: bloc.mMoviesByGenreList,
+                    genreList: genresList,
+                    moviesByGenre: moviesByGenreList,
                     onTapGenre: (genreId){
-                      if(genreId != null){
-                       bloc.onTapGenre(genreId);
-                      }
+                        if(genreId != null){
+                          HomeBloc bloc = Provider.of<HomeBloc>(context, listen: false);
+                         bloc.onTapGenre(genreId);
+                        }
                     },
                   ),
+                      ),
                 ),
                 const SizedBox(height: MARGIN_LARGE),
-                Consumer<HomeBloc>(
-                    builder: (BuildContext context, bloc, Widget? child) =>
-                        ShowCasesSectionView(topRatedMovies: bloc.mTopRatedMoviesList)),
+                Selector<HomeBloc,List<MovieVO>?>(
+                  selector: (context,bloc) => bloc.mTopRatedMoviesList,
+                    builder: (context, topRatedMoviesList, child) =>
+                        ShowCasesSectionView(topRatedMovies: topRatedMoviesList)),
                 const SizedBox(height: MARGIN_LARGE),
-                Consumer<HomeBloc>(
-                  builder: (BuildContext context, bloc, Widget? child) =>
+                Selector<HomeBloc,List<ActorVO>?>(
+                  selector: (context,bloc) => bloc.mActors,
+                  builder: (context, actors, child) =>
                       ActorsAndCreatorsSectionView(
                     BEST_ACTORS_TITLE,
                     BEST_ACTORS_SEE_MORE,
-                    actorsList: bloc.mActors,
+                    actorsList: actors,
                   ),
                 ),
                 // const SizedBox(height: MARGIN_LARGE),

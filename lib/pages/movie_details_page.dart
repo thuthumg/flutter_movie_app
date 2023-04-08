@@ -26,34 +26,38 @@ class MovieDetailsPage extends StatelessWidget {
       
       create: (context)=> MovieDetailsBloc(movieId),
       child: Scaffold(
-        body: Consumer<MovieDetailsBloc>(
-          builder: (context,bloc, child)=>
+        body: Selector<MovieDetailsBloc,MovieVO?>(
+          selector: (context,bloc)=> bloc.mMovie,
+          builder: (context,movieVO, child)=>
            Container(
             color: HOME_SCREEN_BACKGROUND_COLOR,
             child:
-            (bloc.mMovie != null)?
+            (movieVO != null)?
             CustomScrollView(
               slivers: [
                 MovieDetailsSliverAppBarView(
                       () => Navigator.pop(context),
-                  movie: bloc.mMovie,
+                  movie: movieVO,
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                         child: TrailerSection(
-                            genreList: bloc.mMovie?.getGenreListAsStringList() ?? [],
-                            storyLine: bloc.mMovie?.overview ?? ""),
+                            genreList: movieVO.getGenreListAsStringList() ?? [],
+                            storyLine: movieVO.overview ?? ""),
                       ),
                       const SizedBox(
                         height: MARGIN_LARGE,
                       ),
-                      ActorsAndCreatorsSectionView(
-                        MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
-                        "",
-                        seeMoreButtonVisibility: false,
-                        actorsList: bloc.cast,
+                      Selector<MovieDetailsBloc,List<ActorVO>?>(
+                        selector: (context,bloc)=>bloc.cast,
+                        builder: (context,castList,child)=> ActorsAndCreatorsSectionView(
+                          MOVIE_DETAILS_SCREEN_ACTORS_TITLE,
+                          "",
+                          seeMoreButtonVisibility: false,
+                          actorsList: castList,
+                        ),
                       ),
                       const SizedBox(
                         height: MARGIN_LARGE,
@@ -61,20 +65,28 @@ class MovieDetailsPage extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: MARGIN_MEDIUM_2),
                         child: AboutFilmSectionView(
-                          movieVO: bloc.mMovie,
+                          movieVO: movieVO,
                         ),
                       ),
                       const SizedBox(
                         height: MARGIN_LARGE,
                       ),
-                      ActorsAndCreatorsSectionView(
-                        MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
-                        MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
-                        actorsList: bloc.crew,
+                      Selector<MovieDetailsBloc,List<ActorVO>?>(
+                        selector: (context,bloc)=>bloc.crew,
+                        builder: (context,crewList,child)=>
+                        ActorsAndCreatorsSectionView(
+                          MOVIE_DETAILS_SCREEN_CREATORS_TITLE,
+                          MOVIE_DETAILS_SCREEN_CREATORS_SEE_MORE,
+                          actorsList: crewList,
+                        ),
                       )
                     ]))
               ],
-            ):Container(),
+            ):const Center(
+              child: CircularProgressIndicator(
+
+              ),
+            ),
           ),
         ),
       ),
