@@ -16,6 +16,9 @@ class HomeBloc extends ChangeNotifier{
   List<GenreVO>? mGenres;
   List<ActorVO>? mActors;
 
+  ///Page
+  int pageForNowPlayingMovies = 1;
+
 ///2
   ///Model
   MovieModel mMovieModel = MovieModelImpl();
@@ -25,6 +28,7 @@ class HomeBloc extends ChangeNotifier{
     /// Now Playing movies from Database
     mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
      mNowPlayingMoviesList = movieList;
+     mNowPlayingMoviesList?.sort((a,b) => (a.id??0) - (b.id??0));
      notifyListeners();
     }).onError((error) {
       debugPrint(error.toString());
@@ -33,6 +37,7 @@ class HomeBloc extends ChangeNotifier{
     /// Popular Movies from Database
     mMovieModel.getPopularMoviesFromDatabase().listen((movieList) {
      mPopularMoviesList = movieList;
+     notifyListeners();
     }).onError((error) {
       debugPrint(error.toString());
     });
@@ -93,6 +98,12 @@ class HomeBloc extends ChangeNotifier{
     }).catchError((error) {
       debugPrint(error.toString());
     });
+  }
+
+
+  void onNowPlayingMovieListEndReached(){
+    this.pageForNowPlayingMovies += 1;
+    mMovieModel.getNowPlayingMovies(pageForNowPlayingMovies);
   }
 
 }
