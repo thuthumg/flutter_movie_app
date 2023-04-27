@@ -129,36 +129,37 @@ class MovieVO{
   bool? isTopRated;
 
 
-  MovieVO(
-      this.adult,
-      this.backDropPath,
-      this.genreIds,
-      this.id,
-      this.originalLanguage,
-      this.originalTitle,
-      this.overview,
-      this.popularity,
-      this.posterPath,
-      this.releaseDate,
-      this.title,
-      this.video,
-      this.voteAverage,
-      this.voteCount,
-      this.belongsToCollection,
-      this.budget,
-      this.genres,
-      this.homePage,
-      this.imdbId,
-      this.productionCompanies,
-      this.productionCountries,
-      this.revenue,
-      this.runTime,
-      this.spokenLanguages,
-      this.status,
-      this.tagline,
-      this.isNowPlaying,
-      this.isPopular,
-      this.isTopRated);
+  MovieVO({
+    this.adult,
+    this.backDropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+    this.belongsToCollection,
+    this.budget,
+    this.genres,
+    this.homePage,
+    this.imdbId,
+    this.productionCompanies,
+    this.productionCountries,
+    this.revenue,
+    this.runTime,
+    this.spokenLanguages,
+    this.status,
+    this.tagline,
+    this.isNowPlaying,
+    this.isPopular,
+    this.isTopRated
+});
 
   factory MovieVO.fromJson(Map<String,dynamic> json) =>_$MovieVOFromJson(json);
   Map<String,dynamic> toJson()=> _$MovieVOToJson(this);
@@ -186,4 +187,14 @@ class MovieVO{
 
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MovieVO &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          title == other.title;
+
+  @override
+  int get hashCode => id.hashCode ^ title.hashCode;
 }

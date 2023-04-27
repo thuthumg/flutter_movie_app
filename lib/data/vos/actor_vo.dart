@@ -59,20 +59,32 @@ class ActorVO{
   int? order;
 
 
-  ActorVO(
-      this.adult,
-      this.id,
-      this.knownFor,
-      this.popularity,
-      this.name,
-      this.profilePath,
-      this.knownForDepartment,
-      this.originalName,
-      this.castId,
-      this.character,
-      this.creditId,
-      this.order);
+  ActorVO({
+    this.adult,
+    this.id,
+    this.knownFor,
+    this.popularity,
+    this.name,
+    this.profilePath,
+    this.knownForDepartment,
+    this.originalName,
+    this.castId,
+    this.character,
+    this.creditId,
+    this.order
+});
 
   factory ActorVO.fromJson(Map<String,dynamic> json) =>_$ActorVOFromJson(json);
   Map<String,dynamic> toJson()=> _$ActorVOToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ActorVO &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode;
 }

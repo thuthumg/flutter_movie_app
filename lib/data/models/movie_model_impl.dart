@@ -6,6 +6,9 @@ import 'package:movie_app/network/dataagents/movie_data_agent.dart';
 import 'package:movie_app/network/dataagents/retrofit_data_agent_impl.dart';
 import 'package:movie_app/persistence/daos/actor_dao.dart';
 import 'package:movie_app/persistence/daos/genre_dao.dart';
+import 'package:movie_app/persistence/daos/impls/actor_dao_impl.dart';
+import 'package:movie_app/persistence/daos/impls/genre_dao_impl.dart';
+import 'package:movie_app/persistence/daos/impls/movie_dao_impl.dart';
 import 'package:movie_app/persistence/daos/movie_dao.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -21,9 +24,18 @@ class MovieModelImpl extends MovieModel {
   MovieModelImpl._internal();
 
   ///Daos
-  MovieDao mMovieDao = MovieDao();
-  GenreDao mGenreDao = GenreDao();
-  ActorDao mActorDao = ActorDao();
+  MovieDao mMovieDao = MovieDaoImpl();
+  GenreDao mGenreDao = GenreDaoImpl();
+  ActorDao mActorDao = ActorDaoImpl();
+
+  ///For Testing Purposes
+  void setDaosAndDataAgents(MovieDao movieDao, ActorDao actorDao,
+      GenreDao genreDao, MovieDataAgent dataAgent) {
+    mMovieDao = movieDao;
+    mActorDao = actorDao;
+    mGenreDao = genreDao;
+    _dataAgent = dataAgent;
+  }
 
   // @override
   // Future<List<MovieVO>?> getNowPlayingMovies() {
@@ -162,9 +174,10 @@ class MovieModelImpl extends MovieModel {
 
     return _dataAgent.getMovieDetails(movieId).then((movie) async {
       if (movie != null) {
-
-        mMovieDao.getAllMovies().where((movieVO) => movieVO.id == movie.id)
-            .map((movieVOParam){
+        mMovieDao
+            .getAllMovies()
+            .where((movieVO) => movieVO.id == movie.id)
+            .map((movieVOParam) {
           movie.isPopular = movieVOParam.isPopular;
           movie.isTopRated = movieVOParam.isTopRated;
           movie.isNowPlaying = movieVOParam.isNowPlaying;

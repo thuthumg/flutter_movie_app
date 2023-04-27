@@ -15,7 +15,7 @@ class GetCreditsByMovieResponse{
   @JsonKey(name: "crew")
   List<ActorVO>? crew;
 
-  GetCreditsByMovieResponse(this.id, this.cast, this.crew);
+  GetCreditsByMovieResponse({this.id, this.cast, this.crew});
 
 
   factory GetCreditsByMovieResponse.fromJson(Map<String,dynamic> json) =>_$GetCreditsByMovieResponseFromJson(json);
