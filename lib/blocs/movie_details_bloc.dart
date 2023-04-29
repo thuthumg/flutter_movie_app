@@ -15,7 +15,14 @@ class MovieDetailsBloc extends ChangeNotifier{
   ///Model
  MovieModel mMovieModel = MovieModelImpl();
 
- MovieDetailsBloc(int movieId){
+ MovieDetailsBloc(int movieId,[MovieModel? movieModel]){
+
+   ///Set Mock Model for Test Data
+   if(movieModel != null)
+   {
+     mMovieModel = movieModel;
+   }
+
    ///Movie Details
    mMovieModel.getMovieDetails(movieId).then((movie){
      if(movie != null)
@@ -50,7 +57,7 @@ class MovieDetailsBloc extends ChangeNotifier{
 
 
   void getRelatedMovies(int genreId){
-    mMovieModel.getMoviesByGenre(genreId)?.then((relatedMovies){
+    mMovieModel.getMoviesByGenre(genreId).then((relatedMovies){
       mRelatedMovies = relatedMovies;
       notifyListeners();
     });
