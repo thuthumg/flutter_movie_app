@@ -148,7 +148,7 @@ List<ActorVO> getMockActors() {
         profilePath: "/hpMpnHprRlCzvNVlx6C3RWmswOF.jpg"),
     ActorVO(
         adult: false,
-        id: 2710789,
+        id: 2710123,
         knownFor: [],
         knownForDepartment: "Acting",
         name: "Seung Ha",

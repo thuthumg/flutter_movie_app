@@ -12,8 +12,11 @@ void main() {
   group("movie_model_impl", () {
     var movieModel = MovieModelImpl();
     setUp(() {
-      movieModel.setDaosAndDataAgents(MovieDaoImplMock(), ActorDaoImplMock(),
-          GenreDaoImplMock(), MovieDataAgentImplMock());
+      movieModel.setDaosAndDataAgents(
+          MovieDaoImplMock(),
+          ActorDaoImplMock(),
+          GenreDaoImplMock(),
+          MovieDataAgentImplMock());
     });
 
     test(
@@ -119,7 +122,7 @@ void main() {
         });
 
     test(
-        "Get Credits Test",
+        "Get Actors Test",
             () {
           expect(
               movieModel.getActors(1),
@@ -130,7 +133,7 @@ void main() {
         });
 
     test(
-        "Get Actors Test",
+        "Get Credits Test",
             () {
           expect(
               movieModel.getCreditsByMovie(1),
