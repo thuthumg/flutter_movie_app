@@ -28,7 +28,11 @@ class HomeBloc extends ChangeNotifier{
     /// Now Playing movies from Database
     mMovieModel.getNowPlayingMoviesFromDatabase().listen((movieList) {
      mNowPlayingMoviesList = movieList;
-     mNowPlayingMoviesList?.sort((a,b) => (a.id??0) - (b.id??0));
+     if(mNowPlayingMoviesList?.isNotEmpty?? false)
+       {
+         mNowPlayingMoviesList?.sort((a,b) => (a.id??0) - (b.id??0));
+       }
+
      notifyListeners();
     }).onError((error) {
       debugPrint(error.toString());
@@ -55,7 +59,11 @@ class HomeBloc extends ChangeNotifier{
     ///Genres from database
     mMovieModel.getGenresFromDatabase().then((genres) {
       mGenres = genres;
-      _getMoviesByGenreAndRefresh(genres?.first.id ?? 0);
+      if(mGenres?.isNotEmpty?? false)
+        {
+          _getMoviesByGenreAndRefresh(mGenres?.first.id ?? 0);
+        }
+
       notifyListeners();
     }).catchError((error) {
       debugPrint(error.toString());
